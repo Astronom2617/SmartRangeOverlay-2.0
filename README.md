@@ -15,7 +15,7 @@ A modern, highly optimized C# mod for Stardew Valley that displays real-time cov
 
 ## 📦 Installation
 1. Install the latest version of SMAPI.
-2. Download this mod from [Nexus Mods](ВАША_ССЫЛКА_ПОЯВИТСЯ_ПОСЛЕ_ПУБЛИКАЦИИ).
+2. Download this mod from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/43243).
 3. Extract the ZIP into your `Stardew Valley/Mods` folder.
 4. Play!
 
