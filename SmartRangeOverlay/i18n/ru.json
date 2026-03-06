@@ -1,0 +1,15 @@
+{
+  "config.enabled.name": "Включить мод",
+  "config.enabled.desc": "Глобальное включение/выключение мода.",
+  "config.hotkey.name": "Кнопка переключения",
+  "config.hotkey.desc": "Кнопка для включения/выключения сетки во время игры.",
+  "config.sprinklers.name": "Показывать спринклеры",
+  "config.scarecrows.name": "Показывать пугала",
+  "config.beehouses.name": "Показывать ульи",
+  "config.lightningrods.name": "Показывать громоотводы",
+  "config.bombs.name": "Показывать бомбы (в руках)",
+  "config.activebombs.name": "Показывать установленные бомбы",
+  "config.tools.name": "Показывать лейку и мотыгу",
+  "hud.enabled": "Сетка радиуса: ВКЛ",
+  "hud.disabled": "Сетка радиуса: ВЫКЛ"
+}

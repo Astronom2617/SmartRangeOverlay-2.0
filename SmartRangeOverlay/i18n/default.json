@@ -1,0 +1,15 @@
+{
+  "config.enabled.name": "Mod Enabled",
+  "config.enabled.desc": "Turn the mod on or off globally.",
+  "config.hotkey.name": "Toggle Hotkey",
+  "config.hotkey.desc": "Key to toggle the overlay in-game.",
+  "config.sprinklers.name": "Show Sprinklers",
+  "config.scarecrows.name": "Show Scarecrows",
+  "config.beehouses.name": "Show Bee Houses",
+  "config.lightningrods.name": "Show Lightning Rods",
+  "config.bombs.name": "Show Held Bombs",
+  "config.activebombs.name": "Show Placed (Ticking) Bombs",
+  "config.tools.name": "Show Watering Can & Hoe",
+  "hud.enabled": "Smart Range Overlay: ON",
+  "hud.disabled": "Smart Range Overlay: OFF"
+}
