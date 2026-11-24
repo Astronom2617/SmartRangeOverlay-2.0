@@ -1,10 +1,10 @@
 {
   "Name": "Smart Range Overlay 2.0",
   "Author": "astro2617",
-  "Version": "1.0.0",
+  "Version": "1.0.2",
   "Description": "Displays a smart range overlay for sprinklers, scarecrows, bee houses, lightning rods, bombs, and tools. GMCM supported.",
   "UniqueID": "astro2617.SmartRangeOverlay",
   "EntryDll": "SmartRangeOverlay.dll",
   "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": []
+  "UpdateKeys": [ "Nexus:43243" ]
 }

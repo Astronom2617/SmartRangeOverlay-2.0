@@ -86,13 +86,15 @@ namespace SmartRangeOverlay
 
             if (Game1.currentLocation.Objects.TryGetValue(cursorTile, out StardewValley.Object obj))
             {
-                AddTilesToProperSet(obj.QualifiedItemId, cursorTile, normalTilesToDraw, bombTilesToDraw);
+                if (!TryAddVanillaCoverage(obj, cursorTile, normalTilesToDraw))
+                    AddTilesToProperSet(obj.QualifiedItemId, cursorTile, normalTilesToDraw, bombTilesToDraw);
             }
 
             Item heldItem = Game1.player.CurrentItem;
             if (heldItem != null)
             {
-                AddTilesToProperSet(heldItem.QualifiedItemId, cursorTile, normalTilesToDraw, bombTilesToDraw);
+                if (!(heldItem is StardewValley.Object heldObj && TryAddVanillaCoverage(heldObj, cursorTile, normalTilesToDraw)))
+                    AddTilesToProperSet(heldItem.QualifiedItemId, cursorTile, normalTilesToDraw, bombTilesToDraw);
 
                 if ((heldItem is WateringCan || heldItem is Hoe) && Config.ShowTools)
                 {
@@ -119,6 +121,32 @@ namespace SmartRangeOverlay
             if (normalTilesToDraw.Count > 0) DrawGrid(normalTilesToDraw, e.SpriteBatch, Color.White * 0.45f);
             if (bombTilesToDraw.Count > 0) DrawGrid(bombTilesToDraw, e.SpriteBatch, Color.Red * 0.55f);
             if (toolTilesToDraw.Count > 0) DrawGrid(toolTilesToDraw, e.SpriteBatch, Color.DeepSkyBlue * 0.55f);
+        }
+
+        /// <summary>
+        /// Adds coverage for sprinklers and scarecrows using the game's own range logic, so modifiers
+        /// (e.g. Pressure Nozzle) and every scarecrow variant (including all rarecrows) are handled.
+        /// Returns true if the object was a sprinkler or scarecrow and was handled here.
+        /// </summary>
+        private bool TryAddVanillaCoverage(StardewValley.Object obj, Vector2 origin, HashSet<Vector2> normalTiles)
+        {
+            if (obj.IsSprinkler())
+            {
+                if (!Config.ShowSprinklers) return true;
+                Vector2 oldTile = obj.TileLocation;
+                obj.TileLocation = origin; // held items have no position yet
+                normalTiles.UnionWith(obj.GetSprinklerTiles()); // includes Pressure Nozzle bonus
+                obj.TileLocation = oldTile;
+                return true;
+            }
+            if (obj.IsScarecrow())
+            {
+                if (!Config.ShowScarecrows) return true;
+                // the game checks Vector2.Distance(scarecrow, tile) < radius
+                normalTiles.UnionWith(GetCircularCoverage(origin, obj.GetRadiusForScarecrow()));
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -201,35 +229,7 @@ namespace SmartRangeOverlay
 
             switch (itemId)
             {
-                case "(O)599":
-                    if (!Config.ShowSprinklers) return null;
-                    tiles.Add(origin + new Vector2(0, -1));
-                    tiles.Add(origin + new Vector2(0, 1));
-                    tiles.Add(origin + new Vector2(-1, 0));
-                    tiles.Add(origin + new Vector2(1, 0));
-                    break;
-
-                case "(O)621":
-                    if (!Config.ShowSprinklers) return null;
-                    for (int x = -1; x <= 1; x++)
-                        for (int y = -1; y <= 1; y++)
-                            tiles.Add(origin + new Vector2(x, y));
-                    break;
-
-                case "(O)645":
-                    if (!Config.ShowSprinklers) return null;
-                    for (int x = -2; x <= 2; x++)
-                        for (int y = -2; y <= 2; y++)
-                            tiles.Add(origin + new Vector2(x, y));
-                    break;
-
-                case "(BC)8":
-                    if (!Config.ShowScarecrows) return null;
-                    return GetCircularCoverage(origin, 8.9f);
-
-                case "(BC)167":
-                    if (!Config.ShowScarecrows) return null;
-                    return GetCircularCoverage(origin, 16.9f);
+                // Sprinklers and scarecrows are handled by TryAddVanillaCoverage.
 
                 case "(BC)10":
                     if (!Config.ShowBeeHouses) return null;
